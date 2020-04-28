@@ -102,7 +102,7 @@ FORMAT_FN = _noop
 LISTEN_PORT = 80
 DST_PORT = 80
 DST_HOST = "nonhttps.com"
-local_ip = get_local_ip('en0')
+local_ip = get_local_ip('eth0')
 
 # Look up the IP address of the target
 print("Querying DNS records for %s..." % DST_HOST)

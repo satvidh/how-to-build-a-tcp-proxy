@@ -239,8 +239,9 @@ def _noop(data):
 FORMAT_FN = _noop
 
 # Record data sent to the server to files
+from pathlib import Path
 DIR_NAME = "replays/messages-%d/" % time.time()
-os.mkdir(DIR_NAME)
+Path(DIR_NAME).mkdir(parents=True, exist_ok=True)
 f_n = 0
 def _write_to_file(data):
     # Global variables are bad but they do the job
@@ -254,7 +255,8 @@ CA_CERT_PATH = "./ca-cert.pem"
 
 LISTEN_PORT = 443
 DST_PORT = 443
-DST_HOST = "www.bbc.com"
+DST_HOST = "www.google.com"
+DST_HOST_WILDCARD = "*.amazonaws.com"
 local_ip = get_local_ip('en0')
 
 print("Querying DNS records for %s..." % DST_HOST)
@@ -285,7 +287,7 @@ Local IP:\t%s
  
 CertificateAuthority.generate_ca_cert(CA_CERT_PATH, "Robert's Trusty Certificate Corp")
 ca = CertificateAuthority(CA_CERT_PATH)
-certfile = ca.get_cert_path(DST_HOST)
+certfile = ca.get_cert_path(DST_HOST_WILDCARD)
 with open(certfile) as f:
     cert = twisted_ssl.PrivateCertificate.loadPEM(f.read())
 

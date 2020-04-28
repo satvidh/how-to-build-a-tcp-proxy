@@ -6,6 +6,7 @@ def handle_packet_fn(iface, spoof_ip, spoof_domains):
     def handle_packet(packet):
         ip = packet.getlayer(scapy.IP)
         udp = packet.getlayer(scapy.UDP)
+        print("packet", packet)
 
         # Ignore packets containing data we aren't interested
         # in.
@@ -92,11 +93,11 @@ def run(iface, local_ip, sniff_filter, spoof_domains):
 IFACE= 'en0'
 local_ip = _get_local_ip(IFACE)
 # The local IP of your phone
-client_ip = '192.168.42.74'
+client_ip = '192.168.31.1'
 
 # SPOOF_DOMAINS = ['nonhttps.com', 'www.nonhttps.com']
-SPOOF_DOMAINS = ['google.com', 'www.google.com']
-SNIFF_FILTER = ("udp port 53 && dst %s && src %s" %
-    (local_ip, client_ip))
+SPOOF_DOMAINS = ['some_fake_website.com', 'www.some_fake_website.com']
+SNIFF_FILTER = ("udp port 53 && dst %s" %
+    (local_ip))
 
 run(IFACE, local_ip, SNIFF_FILTER, SPOOF_DOMAINS)
